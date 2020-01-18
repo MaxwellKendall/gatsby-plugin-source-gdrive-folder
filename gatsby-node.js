@@ -11,13 +11,11 @@ const getFolder = async (gDriveClient, folderId) => {
 };
 
 const getAuthorziedGdriveClient = (options) => {
-  let key;
-  const { scopes } = options;
+  const { scopes, key } = options;
+  console.log("scopes", scopes);
+  console.log("key", key);
 
-  if (options.key) key = JSON.parse(options.key);
-  if (fs.existsSync(options.pemFilePath)) {
-      key = require(options.pemFilePath);
-  }
+  const key = JSON.parse(options.key);
     // setting the general auth property for client
     const token = new google.auth.JWT(
       key.client_email,
@@ -55,8 +53,8 @@ function fetchFilesInFolder(filesInFolder, gDriveClient) {
     return promises;
 };
 
-exports.sourceNodes = async ({ actions }, options) => {
-    log('creating graphql nodes...', options);
+exports.sourceNodes = async ({ actions }, options = { test: '456' }) => {
+    log('creating graphql nodes...', { test: '123' }, options);
     const { createNode } = actions;
     const { folderId } = options;
     const gDriveClient = getAuthorziedGdriveClient(options);
