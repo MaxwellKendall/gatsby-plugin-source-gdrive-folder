@@ -51,6 +51,17 @@ function fetchFilesInFolder(filesInFolder, gDriveClient) {
     return promises;
 };
 
+const toCamelCase = (property) => {
+  if (property) {
+    return file.description
+      .split(" ")
+      .map((word) => word.toLowerCase())
+      .join("_")
+  }
+
+  return '';
+}
+
 exports.sourceNodes = async ({ actions }, options = { test: '456' }) => {
     log('creating graphql nodes...', { test: '123' }, options);
     const { createNode } = actions;
@@ -71,8 +82,8 @@ exports.sourceNodes = async ({ actions }, options = { test: '456' }) => {
             .filter((file) => !file.trashed)
             .map((file) => ({
                 id: file.id,
-                description: file.description ? file.description : '',
-                name: file.name,
+                description: toCamelCase(file.description),
+                name: toCamelCase(file.name),
                 internal: {
                     contentDigest: `${file.id}_${file.modifiedTime}`,
                     type: 'gDriveContent'
