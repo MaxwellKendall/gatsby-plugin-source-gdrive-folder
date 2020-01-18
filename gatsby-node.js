@@ -30,7 +30,7 @@ const getAuthorziedGdriveClient = (options) => {
   return google.drive('v3');
 };
 
-function fetchFilesInFolder(filesInFolder, parent = '', gDriveClient) {
+function fetchFilesInFolder(filesInFolder, gDriveClient) {
     const promises = [];
 
     filesInFolder.forEach(async (file) => {
@@ -39,7 +39,7 @@ function fetchFilesInFolder(filesInFolder, parent = '', gDriveClient) {
         const nestedFiles = getFolder(gDriveClient, file.id)
           .then((files) => {
             // combining array of promises into one.
-            return Promise.all(fetchFilesInFolder(files, `${parent}/${snakeCasedFolderName}`, gDriveClient));
+            return Promise.all(fetchFilesInFolder(files, gDriveClient));
           });
         promises.push(nestedFiles);
       }
@@ -69,7 +69,7 @@ exports.sourceNodes = async ({ actions }, options) => {
       console.log(`some stupid error... ${e}`);
     }
   
-    Promise.all(fetchFilesInFolder(filesInFolder, undefined, gDriveClient, '', false))
+    Promise.all(fetchFilesInFolder(filesInFolder, gDriveClient))
       .then((allFiles) => {
         lodash.flattenDeep(allFiles)
             .filter((file) => !file.trashed)
