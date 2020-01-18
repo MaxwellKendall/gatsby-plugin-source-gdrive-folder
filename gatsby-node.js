@@ -53,7 +53,7 @@ function fetchFilesInFolder(filesInFolder, gDriveClient) {
 
 const toCamelCase = (property) => {
   if (property) {
-    return file.description
+    return property
       .split(" ")
       .map((word) => word.toLowerCase())
       .join("_")
