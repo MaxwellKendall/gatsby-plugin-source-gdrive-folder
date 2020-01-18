@@ -41,35 +41,6 @@ const getAuthorziedGdriveClient = (options) => {
   return google.drive('v3');
 };
 
-exports.onPreBootstrap = (
-  { graphql, actions },
-  options
-) => {
-  return new Promise(async (resolve) => {
-    log(`Started downloading content...`);
-
-    // Get token and fetch root folder.
-    const { folderId, destination } = options;
-
-    // getting the drive client
-    const gDriveClient = getAuthorziedGdriveClient(options);
-    const filesInFolder = await getFolder(gDriveClient, folderId);
-
-    // Create content directory if it doesn't exist.
-    mkdirp(destination);
-
-    // Start downloading recursively through all folders.
-    console.time(`Downloading content ⏲`);
-
-    Promise.all(fetchFilesInFolder(filesInFolder, undefined, gDriveClient, destination))
-      .then(() => {
-        resolve();
-        log(`Downloaded all files from Google Drive! 🍻`);
-        console.timeEnd(`Downloading content ⏲`);
-      });
-  });
-};
-
 function fetchFilesInFolder(filesInFolder, parent = '', gDriveClient, destination, write = true) {
     const promises = [];
 
