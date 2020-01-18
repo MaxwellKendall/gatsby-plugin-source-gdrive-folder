@@ -11,8 +11,6 @@ const getFolder = async (gDriveClient, folderId) => {
 
 const getAuthorziedGdriveClient = (options) => {
   const { scopes } = options;
-  console.log("scopes", scopes);
-  console.log("key", options.key);
 
   const key = JSON.parse(options.key);
     // setting the general auth property for client
@@ -38,7 +36,7 @@ function fetchFilesInFolder(filesInFolder, gDriveClient) {
             // combining array of promises into one.
             return Promise.all(fetchFilesInFolder(files, gDriveClient));
           })
-          .catch((e) => console.log("ERROR AGAIN: ", e));
+          .catch((e) => console.log("error: ", e));
         promises.push(nestedFiles);
       }
       else {
