@@ -1,5 +1,4 @@
 const { google } = require('googleapis');
-const fs = require(`fs`);
 const lodash = require('lodash')
 
 const log = str => console.log(`\n🚗 `, str);
@@ -11,9 +10,9 @@ const getFolder = async (gDriveClient, folderId) => {
 };
 
 const getAuthorziedGdriveClient = (options) => {
-  const { scopes, key } = options;
+  const { scopes } = options;
   console.log("scopes", scopes);
-  console.log("key", key);
+  console.log("key", options.key);
 
   const key = JSON.parse(options.key);
     // setting the general auth property for client
@@ -38,7 +37,8 @@ function fetchFilesInFolder(filesInFolder, gDriveClient) {
           .then((files) => {
             // combining array of promises into one.
             return Promise.all(fetchFilesInFolder(files, gDriveClient));
-          });
+          })
+          .catch((e) => console.log("ERROR AGAIN: ", e));
         promises.push(nestedFiles);
       }
       else {
