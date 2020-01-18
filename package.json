@@ -1,6 +1,6 @@
 {
   "name": "gatsby-source-gdrive-folder",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "",
   "main": "gatsby-node.js",
   "scripts": {
