@@ -15,16 +15,10 @@ Here's an example from my `gatsby-config.js`:
         key: GOOGLE_DRIVE_SERVICE_ACCOUNT_KEY,
         destination: path.join(__dirname, 'src/drive'),
         scopes: [
-          'https://www.googleapis.com/auth/drive',
-          'https://www.googleapis.com/auth/drive.file',
-          'https://www.googleapis.com/auth/drive.readonly',
-          'https://www.googleapis.com/auth/drive.metadata.readonly',
-          'https://www.googleapis.com/auth/drive.appdata',
-          'https://www.googleapis.com/auth/drive.metadata',
-          'https://www.googleapis.com/auth/drive.photos.readonly'
+          'https://www.googleapis.com/auth/drive.file'
         ]
       }
-    },
+    }
 ```
 
 ## Limitations
