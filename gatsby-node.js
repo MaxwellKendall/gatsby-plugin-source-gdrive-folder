@@ -63,19 +63,12 @@ const toCamelCase = (property) => {
 }
 
 exports.sourceNodes = async ({ actions }, options = { test: '456' }) => {
-    log('creating graphql nodes...', { test: '123' }, options);
+    log('creating graphql nodes...');
     const { createNode } = actions;
     const { folderId } = options;
     const gDriveClient = getAuthorziedGdriveClient(options);
-    let filesInFolder;
+    const filesInFolder = await getFolder(gDriveClient, folderId);
 
-    try {
-      filesInFolder = await getFolder(gDriveClient, folderId);
-    }
-    catch(e) {
-      console.log(`some stupid error... ${e}`);
-    }
-  
     Promise.all(fetchFilesInFolder(filesInFolder, gDriveClient))
       .then((allFiles) => {
         lodash.flattenDeep(allFiles)
