@@ -71,6 +71,7 @@ exports.sourceNodes = async ({ actions }, options = { test: '456' }) => {
 
     Promise.all(fetchFilesInFolder(filesInFolder, gDriveClient))
       .then((allFiles) => {
+        console.log("files", allFiles);
         lodash.flattenDeep(allFiles)
             .filter((file) => !file.trashed)
             .map((file) => ({
